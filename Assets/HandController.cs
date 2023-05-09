@@ -19,11 +19,11 @@ public class HandController : MonoBehaviour
     {
         if (DroneController.instance.currentState != DroneController.States.Arm)
             return;
-       
-     
-        MoveArm( new Vector3(InputManager.instance.movementInput.x, InputManager.instance.movementInput.y, InputManager.instance.zForward*10) * speed*Time.deltaTime);
 
-       
+
+        MoveArm((new Vector3(InputManager.instance.movementInput.x, InputManager.instance.movementInput.y, 0) + transform.forward * InputManager.instance.zForward * 10) * speed * Time.deltaTime);
+
+
     }
 
     public void MoveArm(Vector3 delta)
