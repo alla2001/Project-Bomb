@@ -8,11 +8,12 @@ using static UnityEngine.Rendering.DebugUI;
 public class InputManager : MonoBehaviour
 {
 
+
     public Vector2 movementInput;
     public float zForward;
     public bool rotaryclick;
     public bool spaceDown;
-    SerialPort sp = new SerialPort("COM3", 9600);
+    SerialPort sp = new SerialPort("COM3", 115200);
     bool isStreaming = false;
     public static InputManager instance;
     int lastrot;
@@ -66,11 +67,11 @@ public class InputManager : MonoBehaviour
                 string[] values = data.Split(',');
 
             
-                //print( "Joystick X: " + values[0] + "Joystick Y: " + values[1] + "Encoder Value: " + values[2]+"btn Value: " + values[3]);
+                print( "Joystick X: " + values[0] + "Joystick Y: " + values[1] + "Encoder Value: " + values[2]+"btn Value: " + values[3]);
             
                 read = true;
-                message.joyval.x=(float)-Convert.ToInt16( values[1])/517;
-                message.joyval.y = (float)-Convert.ToInt16(values[0]) / 517;
+                message.joyval.x=(float)Convert.ToInt16( values[1])/517;
+                message.joyval.y = (float)Convert.ToInt16(values[0]) / 517;
                 message.rotary = Convert.ToInt16(values[2]);
                 message.rotaryclick= Convert.ToInt16(values[3])==0;
             
@@ -96,7 +97,7 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
         rotaryclick = false;
-        ReadInputs();
+    
         bool read;
         data value = ReadSerialPort(out read,500);
         if (value != null && read)
@@ -111,6 +112,10 @@ public class InputManager : MonoBehaviour
             
             }
             lastclick = value.rotaryclick;
+        }
+        else
+        {
+            //ReadInputs();
         }
 
         if (_buzz)
@@ -133,7 +138,7 @@ public class InputManager : MonoBehaviour
     public void ReadInputs()
     {
 
-
+        movementInput = Vector2.zero;
        // movementInput = Vector2.zero;
         if (Input.GetKey(KeyCode.W))
         {

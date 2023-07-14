@@ -19,11 +19,12 @@ String currentDir ="";
 
 void setup() {
 
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(buzzer, OUTPUT);
   pinMode(CLK,INPUT);
 	pinMode(DT,INPUT);
 	pinMode(SW, INPUT_PULLUP);
+  	lastStateCLK = currentStateCLK;
 }
 bool value;
 void loop() {
@@ -31,7 +32,7 @@ void loop() {
   if (Serial.available() > 0) 
   {
     char c = Serial.read();
-      tone(buzzer,1000);
+      tone(buzzer,9000);
    
 
   }else{
@@ -45,10 +46,11 @@ void loop() {
  
  // Read the current state of CLK
 	currentStateCLK = digitalRead(CLK);
-
+     //Serial.println(currentStateCLK);
 	// If last and current state of CLK are different, then pulse occurred
 	// React to only 1 state change to avoid double count
-	if (currentStateCLK != lastStateCLK  && currentStateCLK == 1){
+	if (currentStateCLK != lastStateCLK  && currentStateCLK == 1)
+  {
 
 		// If the DT state is different than the CLK state then
 		// the encoder is rotating CCW so decrement
@@ -73,13 +75,13 @@ void loop() {
 	//If we detect LOW signal, button is pressed
 	
 
-     Serial.print(joystick_x-506);
-     Serial.print(",");
-     Serial.print(joystick_y-519);
-     Serial.print(",");
-     Serial.print(counter);
-     Serial.print(",");
-     Serial.println(btnState);
+      Serial.print(joystick_x-506);
+      Serial.print(",");
+      Serial.print(joystick_y-519);
+      Serial.print(",");
+      Serial.print(counter);
+      Serial.print(",");
+      Serial.println(btnState);
    //wait for a short delay before sending the next values
   delay(50);
 }

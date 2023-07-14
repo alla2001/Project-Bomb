@@ -83,7 +83,7 @@ public class DroneController : MonoBehaviour
     private void FixedUpdate()
     {
         if (currentState != States.Movement) return;
-        transform.position += transform.forward * Speed*0.01f * InputManager.instance.movementInput.y;
+        transform.position += transform.right * Speed*0.01f * InputManager.instance.movementInput.y;
         transform.Rotate(Vector3.up * angularSpeed * 0.01f * InputManager.instance.movementInput.x);
     }
 
